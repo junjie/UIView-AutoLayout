@@ -15,6 +15,7 @@
 - (void)addConstraintsFittingSubviewToSelf:(UIView *)subview;
 - (void)addConstraintsCenteringSubviewInSelf:(UIView *)subview;
 - (void)addConstraintsSizingSubview:(UIView *)subview toWidth:(CGFloat)width height:(CGFloat)height;
+- (void)addConstraintsSizingSubview:(UIView *)subview toWidth:(CGFloat)width height:(CGFloat)height withMinimumInsetsFromSelf:(UIEdgeInsets)insets;
 
 @end
 
@@ -23,5 +24,6 @@
 + (NSArray *)constraintsFittingSubviewToSuperview:(UIView *)subview;
 + (NSArray *)constraintsCenteringSubview:(UIView *)subview inSuperview:(UIView *)superview;
 + (NSArray *)constraintsOfWidth:(CGFloat)width height:(CGFloat)height forSubview:(UIView *)subview;
++ (NSArray *)constraintsOfWidth:(CGFloat)width height:(CGFloat)height minimumInsetsFromSuperview:(UIEdgeInsets)insets forSubview:(UIView *)subview;
 
 @end

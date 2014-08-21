@@ -54,13 +54,28 @@
 	}
 }
 
+- (void)addConstraintsSizingSubview:(UIView *)subview toWidth:(CGFloat)width height:(CGFloat)height withMinimumInsetsFromSelf:(UIEdgeInsets)insets
+{
+	NSArray *constraints = [NSLayoutConstraint constraintsOfWidth:width height:height minimumInsetsFromSuperview:insets forSubview:subview];
+	
+	if (constraints)
+	{
+		[subview setTranslatesAutoresizingMaskIntoConstraints:NO];
+		[self addConstraints:constraints];
+	}
+	else
+	{
+		NSAssert(0, @"Can't obtain constraints to size subview (%@) to %.2f x %.2f", subview, width, height);
+	}
+}
+
 @end
 
 @implementation NSLayoutConstraint (AutoLayout)
 
 + (NSArray *)constraintsFittingSubviewToSuperview:(UIView *)subview
 {
-	NSMutableArray *allConstraints = [NSMutableArray arrayWithCapacity:2];
+	NSMutableArray *allConstraints = [NSMutableArray arrayWithCapacity:4];
 	
 	NSDictionary *bindings = NSDictionaryOfVariableBindings(subview);
 	
@@ -119,7 +134,7 @@
 
 + (NSArray *)constraintsOfWidth:(CGFloat)width height:(CGFloat)height forSubview:(UIView *)subview
 {
-	NSMutableArray *allConstraints = [NSMutableArray arrayWithCapacity:2];
+	NSMutableArray *allConstraints = [NSMutableArray arrayWithCapacity:4];
 	
 	NSDictionary *bindings = NSDictionaryOfVariableBindings(subview);
 	NSDictionary *metrics = @{@"width" : @(width), @"height" : @(height)};
@@ -149,5 +164,45 @@
 	
 	return [allConstraints copy];
 }
+
++ (NSArray *)constraintsOfWidth:(CGFloat)width height:(CGFloat)height minimumInsetsFromSuperview:(UIEdgeInsets)insets forSubview:(UIView *)subview
+{
+	NSMutableArray *allConstraints = [NSMutableArray arrayWithCapacity:6];
+	
+	NSDictionary *bindings = NSDictionaryOfVariableBindings(subview);
+	NSDictionary *metrics = @{@"width" : @(width),
+							  @"height" : @(height),
+							  @"top" : @(insets.top),
+							  @"bottom" : @(insets.bottom),
+							  @"left" : @(insets.left),
+							  @"right" : @(insets.right)
+							  };
+	
+	NSArray *constraints =
+	[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=top@1000)-[subview(height@750)]-(>=bottom@1000)-|"
+											options:0
+											metrics:metrics
+											  views:bindings];
+	
+	if ([constraints count])
+	{
+		[allConstraints addObjectsFromArray:constraints];
+	}
+	
+	constraints =
+	[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(>=left@1000)-[subview(width@750)]-(>=right@1000)-|"
+											options:0
+											metrics:metrics
+											  views:bindings];
+	
+	
+	if ([constraints count])
+	{
+		[allConstraints addObjectsFromArray:constraints];
+	}
+	
+	return [allConstraints copy];
+}
+
 
 @end
