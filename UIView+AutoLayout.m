@@ -104,25 +104,32 @@
 	return [allConstraints copy];;
 }
 
++ (NSLayoutConstraint *)constraintVerticallyCenteringSubview:(UIView *)subview inSuperview:(UIView *)superview
+{
+	return [NSLayoutConstraint constraintWithItem:subview
+										attribute:NSLayoutAttributeCenterY
+										relatedBy:NSLayoutRelationEqual
+										   toItem:superview
+										attribute:NSLayoutAttributeCenterY
+									   multiplier:1
+										 constant:0];
+}
+
++ (NSLayoutConstraint *)constraintHorizontallyCenteringSubview:(UIView *)subview inSuperview:(UIView *)superview
+{
+	return [NSLayoutConstraint constraintWithItem:subview
+										attribute:NSLayoutAttributeCenterX
+										relatedBy:NSLayoutRelationEqual
+										   toItem:superview
+										attribute:NSLayoutAttributeCenterX
+									   multiplier:1
+										 constant:0];
+}
+
 + (NSArray *)constraintsCenteringSubview:(UIView *)subview inSuperview:(UIView *)superview
 {
-	NSLayoutConstraint *constraintX =
-	[NSLayoutConstraint constraintWithItem:subview
-								 attribute:NSLayoutAttributeCenterX
-								 relatedBy:NSLayoutRelationEqual
-									toItem:superview
-								 attribute:NSLayoutAttributeCenterX
-								multiplier:1
-								  constant:0];
-	
-	NSLayoutConstraint *constraintY =
-	[NSLayoutConstraint constraintWithItem:subview
-								 attribute:NSLayoutAttributeCenterY
-								 relatedBy:NSLayoutRelationEqual
-									toItem:superview
-								 attribute:NSLayoutAttributeCenterY
-								multiplier:1
-								  constant:0];
+	NSLayoutConstraint *constraintX = [self constraintHorizontallyCenteringSubview:subview inSuperview:superview];
+	NSLayoutConstraint *constraintY = [self constraintVerticallyCenteringSubview:subview inSuperview:superview];
 
 	if (constraintX && constraintY)
 	{
@@ -131,6 +138,18 @@
 	
 	return nil;
 }
+
++ (NSLayoutConstraint *)constraintAligningSubview:(UIView *)subview toSuperview:(UIView *)superview attribute:(NSLayoutAttribute)attribute padding:(CGFloat)padding
+{
+	return [NSLayoutConstraint constraintWithItem:subview
+										attribute:attribute
+										relatedBy:NSLayoutRelationEqual
+										   toItem:superview
+										attribute:attribute
+									   multiplier:1
+										 constant:padding];
+}
+
 
 + (NSArray *)constraintsOfWidth:(CGFloat)width height:(CGFloat)height forSubview:(UIView *)subview
 {
