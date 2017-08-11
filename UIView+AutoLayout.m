@@ -150,6 +150,48 @@
 										 constant:padding];
 }
 
++ (NSArray *)constraintsOfWidth:(CGFloat)width forSubview:(UIView *)subview
+{
+	NSMutableArray *allConstraints = [NSMutableArray arrayWithCapacity:4];
+	
+	NSDictionary *bindings = NSDictionaryOfVariableBindings(subview);
+	NSDictionary *metrics = @{@"width" : @(width)};
+	
+	NSArray *constraints =
+	[NSLayoutConstraint constraintsWithVisualFormat:@"H:[subview(width)]"
+											options:0
+											metrics:metrics
+											  views:bindings];
+	
+	
+	if ([constraints count])
+	{
+		[allConstraints addObjectsFromArray:constraints];
+	}
+	
+	return [allConstraints copy];
+}
+
++ (NSArray *)constraintsOfHeight:(CGFloat)height forSubview:(UIView *)subview
+{
+	NSMutableArray *allConstraints = [NSMutableArray arrayWithCapacity:4];
+	
+	NSDictionary *bindings = NSDictionaryOfVariableBindings(subview);
+	NSDictionary *metrics = @{@"height" : @(height)};
+	
+	NSArray *constraints =
+	[NSLayoutConstraint constraintsWithVisualFormat:@"V:[subview(height)]"
+											options:0
+											metrics:metrics
+											  views:bindings];
+	
+	if ([constraints count])
+	{
+		[allConstraints addObjectsFromArray:constraints];
+	}
+	
+	return [allConstraints copy];
+}
 
 + (NSArray *)constraintsOfWidth:(CGFloat)width height:(CGFloat)height forSubview:(UIView *)subview
 {

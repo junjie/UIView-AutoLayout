@@ -26,6 +26,8 @@
 + (NSLayoutConstraint *)constraintVerticallyCenteringSubview:(UIView *)subview inSuperview:(UIView *)superview;
 + (NSLayoutConstraint *)constraintHorizontallyCenteringSubview:(UIView *)subview inSuperview:(UIView *)superview;
 
++ (NSArray *)constraintsOfWidth:(CGFloat)width forSubview:(UIView *)subview;
++ (NSArray *)constraintsOfHeight:(CGFloat)height forSubview:(UIView *)subview;
 + (NSArray *)constraintsOfWidth:(CGFloat)width height:(CGFloat)height forSubview:(UIView *)subview;
 + (NSArray *)constraintsOfWidth:(CGFloat)width height:(CGFloat)height minimumInsetsFromSuperview:(UIEdgeInsets)insets forSubview:(UIView *)subview;
 
